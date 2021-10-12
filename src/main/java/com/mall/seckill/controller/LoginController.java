@@ -1,5 +1,6 @@
 package com.mall.seckill.controller;
 
+import com.mall.seckill.service.UserService;
 import com.mall.seckill.service.impl.UserServiceImpl;
 import com.mall.seckill.vo.LoginVo;
 import com.mall.seckill.vo.RespBean;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -18,7 +22,7 @@ import javax.validation.Valid;
 public class LoginController {
 
     @Resource
-    UserServiceImpl userService;
+    UserService userService;
 
     @RequestMapping("/toLogin")
     public String toLogin() {
@@ -27,8 +31,8 @@ public class LoginController {
 
     @RequestMapping("/doLogin")
     @ResponseBody
-    public RespBean doLogin(@Valid LoginVo loginVo) {
-        return userService.doLogin(loginVo);
+    public RespBean doLogin(@Valid LoginVo loginVo, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        return userService.doLogin(loginVo, request, response, session);
     }
 
 }

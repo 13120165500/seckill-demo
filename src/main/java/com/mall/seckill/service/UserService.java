@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.seckill.vo.LoginVo;
 import com.mall.seckill.vo.RespBean;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>
@@ -17,5 +19,5 @@ import javax.validation.Valid;
  */
 public interface UserService extends IService<User> {
 
-    RespBean doLogin(@Valid LoginVo loginVo);
+    RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response, HttpSession session);
 }
