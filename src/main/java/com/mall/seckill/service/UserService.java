@@ -20,4 +20,6 @@ import javax.servlet.http.HttpSession;
 public interface UserService extends IService<User> {
 
     RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response, HttpSession session);
+
+    Object getUserByCookie(String ticket);
 }

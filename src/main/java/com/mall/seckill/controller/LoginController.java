@@ -1,5 +1,6 @@
 package com.mall.seckill.controller;
 
+import com.mall.seckill.entity.User;
 import com.mall.seckill.service.UserService;
 import com.mall.seckill.service.impl.UserServiceImpl;
 import com.mall.seckill.vo.LoginVo;

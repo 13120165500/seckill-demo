@@ -34,7 +34,8 @@ public class CodeGenerator {
                 .setFileOverride(true)//第二次生成会把第一次生成的覆盖掉
                 .setServiceName("%sService")//生成的service接口名字首字母是否为I，这样设置就没有I
                 .setBaseResultMap(true)//生成resultMap
-                .setBaseColumnList(true);//在xml中生成基础列
+                .setBaseColumnList(true)//在xml中生成基础列
+                .setDateType(DateType.ONLY_DATE);//
         //2、数据源配置
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)//数据库类型
@@ -49,7 +50,7 @@ public class CodeGenerator {
                 .setNaming(NamingStrategy.underline_to_camel)//下划线到驼峰的命名方式
                 .setTablePrefix("t_")//表名前缀
                 .setEntityLombokModel(true)//使用lombok
-                .setInclude("t_user");//逆向工程使用的表
+                .setInclude("t_good", "t_order", "t_seckill_good", "t_seckill_order");//逆向工程使用的表
         //4、包名策略配置
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.mall.seckill")//设置包名的parent
@@ -58,19 +59,36 @@ public class CodeGenerator {
                 .setController("controller")
                 .setEntity("entity")
                 .setXml("mapper");//设置xml文件的目录
+        //5、自定义配置
+        InjectionConfig cfg = new InjectionConfig() {
+            @Override
+            public void initMap() {
+
+            }
+        };
+        String templatePath = "/templates/mapper.xml.ftl";
+        List<FileOutConfig> focList = new ArrayList<>();
+        focList.add(new FileOutConfig(templatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return System.getProperty("user.dir") + "/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
+        cfg.setFileOutConfigList(focList);
         //5、模板配置
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setXml(null);
-
-        //6、整合配置
+        //5、整合配置
         AutoGenerator autoGenerator = new AutoGenerator();
         autoGenerator.setGlobalConfig(config)
                 .setDataSource(dataSourceConfig)
                 .setStrategy(strategyConfig)
                 .setPackageInfo(packageConfig)
                 .setTemplate(templateConfig)
+                .setCfg(cfg)
                 .setTemplateEngine(new FreemarkerTemplateEngine());
-        //7、执行
+        //6、执行
         autoGenerator.execute();
 
     }

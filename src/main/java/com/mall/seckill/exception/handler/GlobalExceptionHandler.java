@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
             String defaultMessage = e.getAllErrors().get(0).getDefaultMessage();
             return new RespBean(RespInfo.LOGIN_VALID_ERROR.getCode(), RespInfo.LOGIN_VALID_ERROR.getMessage() + ":" + defaultMessage, null);
         }
+        exception.printStackTrace();
         return RespBean.error(RespInfo.ERROR);
     }
 
