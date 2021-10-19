@@ -28,7 +28,7 @@ spring:
   # redis配置
   redis:
     # 主机
-    host: 192.168.31.213
+    host: 10.18.21.84
     # 端口
     port: 6379
     # 数据库

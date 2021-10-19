@@ -4,17 +4,21 @@ package com.mall.seckill.controller;
 import com.mall.seckill.entity.User;
 import com.mall.seckill.service.GoodService;
 import com.mall.seckill.vo.GoodDetailVo;
+import com.mall.seckill.vo.RespBean;
 import freemarker.template.utility.DateUtil;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.util.DateUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -40,7 +44,8 @@ public class GoodController {
     }
 
     @RequestMapping("/toDetail/{goodId}")
-    public String toDetail(@PathVariable Long goodId, Model model, User user) {
+    @ResponseBody
+    public RespBean toDetail(@PathVariable Long goodId, Model model, User user) {
         GoodDetailVo goodDetailVo = goodService.getGoodDetailByGoodId(goodId);
         Date startDate = goodDetailVo.getStartDate();
         Date endDate = goodDetailVo.getEndDate();
@@ -56,10 +61,11 @@ public class GoodController {
             remainSeconds = -1;
             seckillStatus = 2;
         }
-        model.addAttribute("remainSeconds", remainSeconds);
-        model.addAttribute("seckillStatus", seckillStatus);
-        model.addAttribute("goodDetail", goodDetailVo);
-        model.addAttribute("user", user);
-        return "good_detail";
+        Map<String, Object> data = new HashMap<>();
+        data.put("remainSeconds", remainSeconds);
+        data.put("seckillStatus", seckillStatus);
+        data.put("goodDetail", goodDetailVo);
+        data.put("user", user);
+        return RespBean.success(data);
     }
 }

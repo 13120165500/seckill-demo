@@ -29,12 +29,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String userTicket = CookieUtil.getCookieValue(request, "userTicket");
-        if(userTicket != null) {
-            User user = (User) redisTemplate.opsForValue().get("user:" + userTicket);
-            if(user != null) {
-                return user;
-            }
-        }
-        return null;
+        User user = (User) redisTemplate.opsForValue().get("user:" + userTicket);
+        return user;
     }
 }

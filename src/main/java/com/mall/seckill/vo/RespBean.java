@@ -11,7 +11,7 @@ public class RespBean {
 
     private int code;
     private String message;
-    private Object obj;
+    private Object data;
 
     public static RespBean success() {
         return new RespBean(RespInfo.SUCCESS.getCode(), RespInfo.SUCCESS.getMessage(), null);
